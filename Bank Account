@@ -1,0 +1,98 @@
+import java.util.Scanner;
+
+class BankAccount {
+    private double balance;
+
+   
+    public BankAccount(double initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Successfully deposited: $" + amount);
+        } else {
+            System.out.println("Invalid amount! Please enter a positive value.");
+        }
+    }
+
+   
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println("Successfully withdrew: $" + amount);
+        } else if (amount > balance) {
+            System.out.println("Insufficient balance! Your balance is: $" + balance);
+        } else {
+            System.out.println("Invalid amount! Please enter a positive value.");
+        }
+    }
+
+    
+    public double checkBalance() {
+        return balance;
+    }
+}
+
+public class ATMInterface {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        
+        BankAccount userAccount = new BankAccount(500.00); 
+        boolean exit = false;
+
+        System.out.println("Welcome to the ATM!");
+        System.out.println("Your starting balance is: $" + userAccount.checkBalance());
+
+
+        while (!exit) {
+            System.out.println("\nPlease choose an option:");
+            System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Check Balance");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice;
+            try {
+                choice = scanner.nextInt();
+            } catch (Exception e) {
+                System.out.println("Invalid input! Please enter a number between 1 and 4.");
+                scanner.next(); 
+                continue;
+            }
+
+       
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter amount to deposit: $");
+                    double depositAmount = scanner.nextDouble();
+                    userAccount.deposit(depositAmount);
+                    break;
+
+                case 2:
+                    System.out.print("Enter amount to withdraw: $");
+                    double withdrawAmount = scanner.nextDouble();
+                    userAccount.withdraw(withdrawAmount);
+                    break;
+
+                case 3:
+                    System.out.println("Your current balance is: $" + userAccount.checkBalance());
+                    break;
+
+                case 4:
+                    System.out.println("Thank you for using the ATM. Goodbye!");
+                    exit = true;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Please choose a number between 1 and 4.");
+            }
+        }
+
+        scanner.close();
+    }
+}
